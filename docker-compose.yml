@@ -42,9 +42,7 @@ services:
     image: fiware/orion-ld:latest
     depends_on:
       - mongo
-    environment:
-      - ORION_MONGO_HOST=${ORION_MONGO_HOST}
-      - ORION_MONGO_PORT=${ORION_MONGO_PORT}
+    command: -dbhost mongo
     ports:
       - "1026:1026"
 
