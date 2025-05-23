@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  neo4j:
+    image: neo4j:4.4
+    environment:
+      NEO4J_AUTH: ${NEO4J_AUTH}
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  orion:
+    image: fiware/orion-ld
+    depends_on:
+      - mongo
+    environment:
+      - ORION_MONGO_HOST=${ORION_MONGO_HOST}
+      - ORION_MONGO_PORT=${ORION_MONGO_PORT}
+    ports:
+      - "1026:1026"
+
+volumes:
+  mysql_data:
+  neo4j_data:
+  minio_data:
+  mongo_data:
