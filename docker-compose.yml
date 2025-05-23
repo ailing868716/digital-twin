@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   mysql:
-    image: daocloud.io/library/mysql:8.0
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
@@ -10,14 +10,14 @@ services:
       - mysql_data:/var/lib/mysql
 
   mongo:
-    image: daocloud.io/library/mongo:6.0
+    image: mongo:6.0
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
   neo4j:
-    image: daocloud.io/library/neo4j:4.4
+    image: neo4j:4.4
     environment:
       NEO4J_AUTH: ${NEO4J_AUTH}
     ports:
@@ -27,7 +27,7 @@ services:
       - neo4j_data:/data
 
   minio:
-    image: daocloud.io/minio/minio:latest
+    image: minio/minio:latest
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
@@ -39,7 +39,7 @@ services:
       - minio_data:/data
 
   orion:
-    image: daocloud.io/fiware/orion-ld:latest
+    image: fiware/orion-ld:latest
     depends_on:
       - mongo
     environment:
