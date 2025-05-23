@@ -10,14 +10,14 @@ services:
       - mysql_data:/var/lib/mysql
 
   mongo:
-    image: mongo:6.0
+    image: registry.cn-hangzhou.aliyuncs.com/zrhe/mongo:6.0
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
   neo4j:
-    image: neo4j:4.4
+    image: registry.cn-hangzhou.aliyuncs.com/zrhe/neo4j:4.4
     environment:
       NEO4J_AUTH: ${NEO4J_AUTH}
     ports:
@@ -39,7 +39,7 @@ services:
       - minio_data:/data
 
   orion:
-    image: fiware/orion-ld:latest
+    image: registry.cn-hangzhou.aliyuncs.com/zrhe/orion-ld:latest
     depends_on:
       - mongo
     environment:
