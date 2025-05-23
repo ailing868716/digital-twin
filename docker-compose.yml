@@ -10,7 +10,7 @@ services:
       - mysql_data:/var/lib/mysql
 
   mongo:
-    image: mongo:6.0
+    image: mongo:5.0
     ports:
       - "27017:27017"
     volumes:
