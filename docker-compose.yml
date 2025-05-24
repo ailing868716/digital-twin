@@ -56,6 +56,16 @@ services:
     networks:
       - default
 
+  minio-adapter:
+    build:
+      context: ./services/minio-adapter
+    ports:
+      - "8002:8000"
+    depends_on:
+      - minio
+    networks:
+      - default
+
 
 volumes:
   mysql_data:

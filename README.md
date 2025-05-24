@@ -61,3 +61,8 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     return {"message": "Digital Twin API Service is running"}
+```
+
+### 新增微服务
+- `mysql-adapter`：提供 MySQL 数据库操作 API
+- `minio-adapter`：提供 MinIO 对象存储操作 API
