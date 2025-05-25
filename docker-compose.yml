@@ -82,6 +82,18 @@ services:
       - NEO4J_USER=neo4j
       - NEO4J_PASSWORD=test
 
+  orion-ld-adapter:
+    build:
+      context: ./services/orion-ld-adapter
+    ports:
+      - "8003:8000"
+    depends_on:
+      - orion
+    networks:
+      - default
+    environment:
+      - ORION_URL=http://orion:1026
+
 
 volumes:
   mysql_data:
