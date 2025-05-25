@@ -1,0 +1,559 @@
+{
+  "info": {
+    "name": "Neo4j Adapter API - 自给自足自动化测试（修正版）",
+    "_postman_id": "abcdef12-3456-7890-abcd-ef1234567890",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://8.130.150.104:8002"
+    }
+  ],
+  "item": [
+    {
+      "name": "Delete Node (Alice)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "delete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Alice_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Delete Alice executed', function () { pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Node (Bob)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "delete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Bob_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Delete Bob executed', function () { pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Node (Alice)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"properties\": {\n    \"name\": \"Alice_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Create Alice status 200', function () { pm.response.to.have.status(200); });",
+              "pm.collectionVariables.set('aliceName', 'Alice_20250525121237');",
+              "pm.collectionVariables.set('aliceId', pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Node (Bob)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"properties\": {\n    \"name\": \"Bob_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Create Bob status 200', function () { pm.response.to.have.status(200); });",
+              "pm.collectionVariables.set('bobName', 'Bob_20250525121237');",
+              "pm.collectionVariables.set('bobId', pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Query Node (Alice)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/query",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "query"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Alice_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Query Alice status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Alice node exists', function () { pm.expect(pm.response.json().nodes.length).to.be.above(0); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Query Node (Bob)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/query",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "query"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Bob_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Query Bob status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Bob node exists', function () { pm.expect(pm.response.json().nodes.length).to.be.above(0); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Node (Alice)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Alice_20250525121237\"\n  },\n  \"properties\": {\n    \"age\": 30\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Update Alice status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Alice updated', function () { pm.expect(pm.response.json().updated).to.be.above(0); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Relationship (Alice->Bob)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/relationship/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "relationship",
+            "create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_label\": \"Person\",\n  \"start_filters\": {\n    \"name\": \"Alice_20250525121237\"\n  },\n  \"end_label\": \"Person\",\n  \"end_filters\": {\n    \"name\": \"Bob_20250525121237\"\n  },\n  \"rel_type\": \"KNOWS\",\n  \"properties\": {}\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Create Relationship status 200', function () { pm.response.to.have.status(200); });",
+              "pm.collectionVariables.set('relId', pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Query Relationship (Alice->Bob)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/relationship/query",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "relationship",
+            "query"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_label\": \"Person\",\n  \"start_filters\": {\n    \"name\": \"Alice_20250525121237\"\n  },\n  \"end_label\": \"Person\",\n  \"end_filters\": {\n    \"name\": \"Bob_20250525121237\"\n  },\n  \"rel_type\": \"KNOWS\",\n  \"properties\": {}\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Query Relationship status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Relationship exists', function () { pm.expect(pm.response.json().relationships.length).to.be.above(0); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Relationship (Alice->Bob)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/relationship/update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "relationship",
+            "update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_label\": \"Person\",\n  \"start_filters\": {\n    \"name\": \"Alice_20250525121237\"\n  },\n  \"end_label\": \"Person\",\n  \"end_filters\": {\n    \"name\": \"Bob_20250525121237\"\n  },\n  \"rel_type\": \"KNOWS\",\n  \"properties\": {\n    \"since\": 2020\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Update Relationship status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Relationship updated', function () { pm.expect(pm.response.json().updated).to.be.above(0); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Run Cypher (All Person)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/relationship/cypher",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "relationship",
+            "cypher"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cypher\": \"MATCH (n:Person) RETURN n\",\n  \"params\": {}\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Run Cypher status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Result present', function () { pm.expect(pm.response.json()).to.have.property('result'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Relationship (Alice->Bob)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/relationship/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "relationship",
+            "delete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_label\": \"Person\",\n  \"start_filters\": {\n    \"name\": \"Alice_20250525121237\"\n  },\n  \"end_label\": \"Person\",\n  \"end_filters\": {\n    \"name\": \"Bob_20250525121237\"\n  },\n  \"rel_type\": \"KNOWS\",\n  \"properties\": {}\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Delete Relationship status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Relationship deleted', function () { pm.expect(pm.response.json()).to.have.property('deleted'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Node (Alice, final cleanup)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "delete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Alice_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Delete Alice (cleanup) status 200', function () { pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Node (Bob, final cleanup)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/neo4j/node/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "neo4j",
+            "node",
+            "delete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"Person\",\n  \"filters\": {\n    \"name\": \"Bob_20250525121237\"\n  }\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Delete Bob (cleanup) status 200', function () { pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}

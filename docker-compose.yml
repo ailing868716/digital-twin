@@ -68,6 +68,21 @@ services:
       - default
     restart: always
 
+  neo4j-adapter:
+    build:
+      context: ./services/neo4j-adapter
+    ports:
+      - "8002:8000"
+    depends_on:
+      - neo4j
+    networks:
+      - default
+    environment:
+      - NEO4J_URL=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=test
+
+
 volumes:
   mysql_data:
   mongo_data:

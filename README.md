@@ -1,7 +1,7 @@
 # Digital Twin Platform
 
 ## 📁 项目结构
-### test vscode 推送gitee
+### test vscode 推送gitee，转移目录
 
 digital-twin/
 ├── .env # 环境变量配置
