@@ -56,6 +56,17 @@ services:
     networks:
       - default
 
+  minio-adapter:
+    build:
+      context: ./services/minio-adapter
+    container_name: digital-twin-minio-adapter
+    ports:
+      - "8000:8000"  #  外部访问端口
+    depends_on:
+      - minio
+    networks:
+      - default
+    restart: always
 
 volumes:
   mysql_data:

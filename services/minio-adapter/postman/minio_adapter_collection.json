@@ -1,0 +1,306 @@
+{
+  "info": {
+    "_postman_id": "12345678-1234-1234-1234-1234567890ab",
+    "name": "MinIO Adapter API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://8.130.150.104:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Bucket",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/minio/bucket/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "bucket",
+            "create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bucket_name\": \"test-bucket\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Bucket created message\", function () {",
+              "    pm.expect(pm.response.json().message).to.include('test-bucket');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Buckets",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/minio/bucket/list",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "bucket",
+            "list"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Buckets array present\", function () {",
+              "    pm.expect(pm.response.json()).to.have.property('buckets');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Upload Object",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/minio/object/upload?bucket_name=test-bucket",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "object",
+            "upload"
+          ],
+          "query": [
+            {
+              "key": "bucket_name",
+              "value": "test-bucket"
+            }
+          ]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "value": "hello world",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Upload message\", function () {",
+              "    pm.expect(pm.response.json().message).to.include('uploaded');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Objects",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/minio/object/list",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "object",
+            "list"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bucket_name\": \"test-bucket\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Objects array present\", function () {",
+              "    pm.expect(pm.response.json()).to.have.property('objects');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Download Object",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/minio/object/download?bucket_name=test-bucket&object_name=hello.txt",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "object",
+            "download"
+          ],
+          "query": [
+            {
+              "key": "bucket_name",
+              "value": "test-bucket"
+            },
+            {
+              "key": "object_name",
+              "value": "hello.txt"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Object",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/minio/object/delete",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "object",
+            "delete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bucket_name\": \"test-bucket\",\n  \"object_names\": [\"hello.txt\"]\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Delete message\", function () {",
+              "    pm.expect(pm.response.json().message).to.equal('objects deleted');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Bucket",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/minio/bucket/delete?bucket_name=test-bucket",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "minio",
+            "bucket",
+            "delete"
+          ],
+          "query": [
+            {
+              "key": "bucket_name",
+              "value": "test-bucket"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Bucket delete message\", function () {",
+              "    pm.expect(pm.response.json().message).to.include('deleted');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
